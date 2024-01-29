@@ -32,24 +32,29 @@
 
 #include "G4VUserDetectorConstruction.hh"
 #include "globals.hh"
+#include "G4SDManager.hh"
 
 class G4VPhysicalVolume;
 class G4LogicalVolume;
 
+class GdScintSD;
+  
 /// Detector construction class to define materials and geometry.
 
 class DetectorConstruction : public G4VUserDetectorConstruction
 {
   public:
-    DetectorConstruction() = default;
-    ~DetectorConstruction() override = default;
+    DetectorConstruction();
+    virtual ~DetectorConstruction();
 
     G4VPhysicalVolume* Construct() override;
 
     G4LogicalVolume* GetScoringVolume() const { return fScoringVolume; }
 
   protected:
-    G4LogicalVolume* fScoringVolume = nullptr;
+    G4LogicalVolume* fScoringVolume;
+    G4SDManager* SDman;
+    GdScintSD* myGdScintSD; 
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
