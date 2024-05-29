@@ -40,7 +40,7 @@ class EventAction : public G4UserEventAction
 
   private:
   G4int                       GdScintCollID;
-
+ // G4int GdScintCollection;
   G4int totEvents; //total number of events processed
   G4int fThreshold;
 

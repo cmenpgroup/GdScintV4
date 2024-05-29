@@ -342,7 +342,7 @@ G4double Californium_Rod_sizeZ = 1*inch;      //  1/2 z length
   G4double VesselIn_sizeSPhi = VesselOut_sizeSPhi;     // starting angle phi in radians
   G4double VesselIn_sizeDPhi = VesselOut_sizeDPhi;     // ending angle phi in radians
 
-  G4double Vessel_posX = 0.*cm;         // x position with respect to world origin
+  G4double Vessel_posX = 1.*cm;         // x position with respect to world origin
   G4double Vessel_posY = 0.*cm;         // y position with respect to world origin
   G4double Vessel_posZ = 0.*cm;         // z position with respect to world origin
   G4Material* Vessel_mat = SS;          // stainless steel material
@@ -378,9 +378,9 @@ G4double Californium_Rod_sizeZ = 1*inch;      //  1/2 z length
                     checkOverlaps);          //overlaps checking
 //
  //plexiglass
-  G4double Plexiglass_Sheet_sizeZ = 3*.5*foot;   // full z length
+  G4double Plexiglass_Sheet_sizeZ = 2.75*.5*foot;   // full z length
   G4double Plexiglass_Sheet_sizeY = .25*inch;		//full y length
-  G4double Plexiglass_Sheet_sizeX = 16*.5*inch;  // full x length
+  G4double Plexiglass_Sheet_sizeX = 15.65*.5*inch;  // full x length
   G4double Plexiglass_Sheet_posX = 0.*inch;     // x position with respect to world origin
   G4double Plexiglass_Sheet_posY = -4.5*inch;     // y position with respect to world origin
   G4double Plexiglass_Sheet_posZ = 0.*inch ;   // z position with respect to world origin
@@ -402,9 +402,9 @@ G4double Californium_Rod_sizeZ = 1*inch;      //  1/2 z length
 //Lead Brick
 //
 
-  G4double Lead_brick_sizeZ = 7.875*inch;   // full z length
-  G4double Lead_brick_sizeY = 2*inch;		//full y length
-  G4double Lead_brick_sizeX = 4*inch;  // full x length
+  G4double Lead_brick_sizeZ = 7.675*inch;   // full z length
+  G4double Lead_brick_sizeY = 1.8*inch;		//full y length
+  G4double Lead_brick_sizeX = 3.8*inch;  // full x length
   G4double Lead_brick_posX = -1*inch;     // x position with respect to world origin
   G4double Lead_brick_posY = -8*inch;     // y position with respect to world origin
   G4double Lead_brick_posZ = -4*inch;   // z position with respect to world origin
@@ -481,7 +481,7 @@ G4double Californium_Rod_sizeZ = 1*inch;      //  1/2 z length
 
   G4double Pigend_posX = 3*inch;         // x position with respect to world origin
   G4double Pigend_posY = -6.9*inch;         // y position with respect to world origin
-  G4double Pigend_posZ = -1.125*inch;         // z position with respect to world origin
+  G4double Pigend_posZ = -0.915*inch;         // z position with respect to world origin
   G4Material* Pigend_mat = Lead;          // Lead material
 
   G4VSolid* solidPigend;
@@ -545,13 +545,13 @@ G4double Californium_Rod_sizeZ = 1*inch;      //  1/2 z length
     //SENSITIVE DETECTORS  //
     /////////////////////////
 
-//    G4SDManager* SDman = G4SDManager::GetSDMpointer();
-    
-    if(!myGdScintSD)
-    {
-        myGdScintSD = new GdScintSD( "GdScintSD", this );
+    G4SDManager* SDman = G4SDManager::GetSDMpointer();
+   // G4SDManager::GetSDMpointer()->AddNewDetector("GdScintSD");    
+  //  if(!myGdScintSD)
+   // {
+        myGdScintSD = new GdScintSD( "GdScintSD" );
         SDman -> AddNewDetector( myGdScintSD );
-    }
+   // } 
     logicGEM -> SetSensitiveDetector ( myGdScintSD );
 
   //

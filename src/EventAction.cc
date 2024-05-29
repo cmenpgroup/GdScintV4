@@ -29,15 +29,16 @@
 #include "G4ios.hh"
 #include "G4UnitsTable.hh"
 #include "Randomize.hh"
+#include "GdScintSD.hh"
 //For outputting to ascii:
 #include <iomanip>
 #include <fstream>
 
 /////////////////////////////////////////////////////////////////////////////
 ////OUTPUT                                                                 //
-    G4int verboseLevel= 0;   //choose 0,1 or 2 for screen output detail    //
+    G4int verboseLevel= 2;   //choose 0,1 or 2 for screen output detail    //
     G4int dataFiles = 3;     //choose 0,1,2,3 for ascii creation           //
-    G4int Ntuples = 0;       //choose 1 for Ntuple creation                //
+    G4int Ntuples = 2;       //choose 1 for Ntuple creation                //
 /////////////////////////////////////////////////////////////////////////////
 
 EventAction::EventAction()
@@ -54,20 +55,25 @@ EventAction::~EventAction()
 }
 
 void EventAction::BeginOfEventAction(const G4Event* evt)
-{
-    G4int evtNb;
-    evtNb = evt->GetEventID();
-
-    if (GdScintCollID==-1)
+{  	
+	G4int evtNb;
+	evtNb = evt->GetEventID();
+	G4SDManager *SDman = G4SDManager::GetSDMpointer();
+    	if (GdScintCollID==-1)
     {
-        G4SDManager * SDman = G4SDManager::GetSDMpointer();
-        GdScintCollID = SDman->GetCollectionID("GdScintCollection");
+      //  G4SDManager *SDman = G4SDManager::GetSDMpointer();
+
+      G4cout << "PROBLEM BEGIN" << G4endl;
+	GdScintCollID = SDman->GetCollectionID("GdScintCollection");
+    G4cout << "PROBLEM END" << G4endl;
     }
 }
 
 void EventAction::EndOfEventAction(const G4Event* evt)
-{
-    G4cout<<totEvents<<G4endl;
+{ //G4SDManager *SDman = G4SDManager::GetSDMpointer(); //
+	//GdScintCollID = SDman->GetCollectionID("GdScintCollection"); //
+	G4cout << "Total Events: " << G4endl;
+    G4cout << totEvents << G4endl;
     totEvents++;
 
     G4RunManager *runMan = G4RunManager::GetRunManager();
@@ -75,7 +81,8 @@ void EventAction::EndOfEventAction(const G4Event* evt)
     G4int evtNb = evt->GetEventID();
 
     G4HCofThisEvent* HCE = evt->GetHCofThisEvent();
-
+G4SDManager *SDman = G4SDManager::GetSDMpointer();
+GdScintCollID = SDman->GetCollectionID("GdScintCollection");
     GdScintHitsCollection*          ScintHC    = NULL;
 
     G4int           n_hit = 0;
@@ -104,7 +111,6 @@ void EventAction::EndOfEventAction(const G4Event* evt)
   //  G4int         InelasticNucHits = 0;
 
     if (HCE) ScintHC     = (GdScintHitsCollection*)     (HCE->GetHC(GdScintCollID));
-
 //////////////////////////////////////////////////////////
 //    SCINTILLATOR ANALYSIS     //
 /////////////////////////////////////////////////////////
@@ -134,7 +140,7 @@ void EventAction::EndOfEventAction(const G4Event* evt)
 
     //VisManager
 
-    if ( G4VVisManager::GetConcreteInstance() )
+  /*  if ( G4VVisManager::GetConcreteInstance() )
     {
         G4TrajectoryContainer* trajectoryContainer = evt->GetTrajectoryContainer();
         G4int n_trajectories = 0;
@@ -147,7 +153,7 @@ void EventAction::EndOfEventAction(const G4Event* evt)
          trj->DrawTrajectory();
         }
     }
-
+*/
 }//End of function
 
 //Redundant functions...may use later...(good intentions!)

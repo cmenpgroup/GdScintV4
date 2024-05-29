@@ -45,9 +45,9 @@ int GdScintHit::operator==(const GdScintHit & right) const
   return 0;
 }
 
-void GdScintHit::Draw()
+ void GdScintHit::Draw()
 {
-  G4VVisManager* pVVisManager = G4VVisManager::GetConcreteInstance();
+/*  G4VVisManager* pVVisManager = G4VVisManager::GetConcreteInstance();
 
   if(pVVisManager) {
     G4Circle circle(positionScint);
@@ -57,7 +57,7 @@ void GdScintHit::Draw()
     G4VisAttributes attribs(colour);
     circle.SetVisAttributes(attribs);
     pVVisManager->Draw(circle);
-  }
+  }*/
 }
 
 void GdScintHit::Print()

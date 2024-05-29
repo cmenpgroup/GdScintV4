@@ -25,14 +25,13 @@ RunAction::~RunAction()
 void RunAction::BeginOfRunAction(const G4Run* aRun)
 {
     G4cout << "### Run " << aRun->GetRunID() << " start." << G4endl;
-
     G4int nbEventInRun;
     nbEventInRun = aRun->GetNumberOfEventToBeProcessed();
 
     G4UImanager* UI = G4UImanager::GetUIpointer();
     UI->ApplyCommand("/tracking/storeTrajectory 1");
 
-   if (G4VVisManager::GetConcreteInstance())
+/*   if (G4VVisManager::GetConcreteInstance())
     { G4cout << "run visualisation" << G4endl;
       G4UImanager* UI = G4UImanager::GetUIpointer();
       UI->ApplyCommand("/vis/scene/notifyHandlers");
@@ -44,7 +43,7 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
     // save Rndm status
     G4RunManager::GetRunManager()->SetRandomNumberStore(true);
     G4Random::showEngineStatus();
-}
+*/ }
 
 void RunAction::EndOfRunAction(const G4Run* aRun)
 {

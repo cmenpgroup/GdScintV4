@@ -46,7 +46,7 @@ G4double pi = 4*std::atan(1.);
 
 PrimaryGeneratorAction::PrimaryGeneratorAction()
 {
-  G4int n_particle = 20;
+  G4int n_particle = 2;
   fParticleGun  = new G4ParticleGun(n_particle);
 
   // default particle kinematic
