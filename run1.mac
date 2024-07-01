@@ -1,6 +1,7 @@
 # Macro file for GdScint
 # 
 # Initialize Kernel
+#/run/numberOfThreads 4
 /run/initialize
 #
 /control/verbose 1
@@ -16,3 +17,5 @@
 
 /run/printProgress 5
 /run/beamOn 1
+
+

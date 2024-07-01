@@ -31,7 +31,7 @@ DetectorConstruction::DetectorConstruction()
 }
 
 DetectorConstruction::~DetectorConstruction()
-{ }
+{ ; }
 
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
@@ -545,19 +545,28 @@ G4double Californium_Rod_sizeZ = 1*inch;      //  1/2 z length
     //SENSITIVE DETECTORS  //
     /////////////////////////
 
-    G4SDManager* SDman = G4SDManager::GetSDMpointer();
+  // // G4SDManager* SDman = G4SDManager::GetSDMpointer();
    // G4SDManager::GetSDMpointer()->AddNewDetector("GdScintSD");    
-  //  if(!myGdScintSD)
+////    if(!myGdScintSD)
    // {
-        myGdScintSD = new GdScintSD( "GdScintSD" );
-        SDman -> AddNewDetector( myGdScintSD );
+    ////    myGdScintSD = new GdScintSD( "GdScintSD", this  );
+        ////SDman -> AddNewDetector( myGdScintSD );
    // } 
-    logicGEM -> SetSensitiveDetector ( myGdScintSD );
+   //// logicGEM -> SetSensitiveDetector ( myGdScintSD );
 
   //
   //always return the physical World
   //
   return physWorld;
 }
+void DetectorConstruction::ConstructSDandField()
+{
+	G4SDManager* SDman = G4SDManager::GetSDMpointer();
+	myGdScintSD = new GdScintSD("GdScintSD", this);
+	SDman ->AddNewDetector(myGdScintSD);
+	logicGEM -> SetSensitiveDetector(myGdScintSD);
+}
+
+
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

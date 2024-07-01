@@ -45,16 +45,19 @@ class DetectorConstruction : public G4VUserDetectorConstruction
 {
   public:
     DetectorConstruction();
-    virtual ~DetectorConstruction();
+    virtual ~DetectorConstruction() override;
 
-    G4VPhysicalVolume* Construct() override;
-
+    virtual G4VPhysicalVolume* Construct() override;
+    virtual void ConstructSDandField() override;
     G4LogicalVolume* GetScoringVolume() const { return fScoringVolume; }
+   G4LogicalVolume* logicGEM; //pointer to logical detector 
 
   protected:
     G4LogicalVolume* fScoringVolume;
     G4SDManager* SDman;
-    GdScintSD* myGdScintSD; 
+    GdScintSD* myGdScintSD;
+  private:
+ //  G4LogicalVolume* logicGEM; //pointer to logical detector 
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -16,7 +16,7 @@ class GdScintSD : public G4VSensitiveDetector {
 
    public:
   
-     GdScintSD(G4String);
+     GdScintSD(G4String, DetectorConstruction*);
      ~GdScintSD();
   
      void Initialize(G4HCofThisEvent*);
@@ -31,6 +31,7 @@ class GdScintSD : public G4VSensitiveDetector {
      GdScintHitsCollection* GdScintCollection;
      DetectorConstruction* GdDetector;
      G4int HitID;
+    
 };
 
 #endif

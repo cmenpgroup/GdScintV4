@@ -32,13 +32,16 @@
 #include "RunAction.hh"
 #include "EventAction.hh"
 #include "SteppingAction.hh"
-
+ActionInitialization::ActionInitialization() : G4VUserActionInitialization() {}
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
+ActionInitialization::~ActionInitialization()
+{;}
+// // //
 void ActionInitialization::BuildForMaster() const
 {
   auto runAction = new RunAction;
   SetUserAction(runAction);
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

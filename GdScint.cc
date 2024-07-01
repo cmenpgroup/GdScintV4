@@ -45,7 +45,6 @@
 int main(int argc,char** argv)
 {
   // Detect interactive mode (if no arguments) and define UI session
-  //
   G4UIExecutive* ui = nullptr;
   if ( argc == 1 ) { ui = new G4UIExecutive(argc, argv); }
 
@@ -57,10 +56,10 @@ int main(int argc,char** argv)
   G4SteppingVerbose::UseBestUnit(precision);
 
   // Construct the default run manager
-  //
   auto* runManager =
     G4RunManagerFactory::CreateRunManager(G4RunManagerType::Default);
-
+  //set number of worker threads
+runManager->SetNumberOfThreads(4);
   // Set mandatory initialization classes
   //
   // Detector construction
@@ -73,20 +72,14 @@ int main(int argc,char** argv)
 
   // User action initialization
   runManager->SetUserInitialization(new ActionInitialization());
-
-  // Initialize visualization
-  //
-  // G4VisManager* visManager = new G4VisExecutive;
-  // Uncomment for visualization^
-  // G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.
-  // G4VisManager* visManager = new G4VisExecutive("Quiet");
-  // Uncomment for visualization visManager->Initialize();
-
+  
   // Get the pointer to the User Interface manager
   G4UImanager* UImanager = G4UImanager::GetUIpointer();
 
+  // Initialize the kernal
+  runManager->Initialize();
+
   // Process macro or start UI session
-  //
   if ( ! ui ) {
     // batch mode
     G4String command = "/control/execute ";
@@ -108,7 +101,7 @@ int main(int argc,char** argv)
   // owned and deleted by the run manager, so they should not be deleted
   // in the main() program !
 
-  // delete visManager;
+  
   delete runManager;
 }
 

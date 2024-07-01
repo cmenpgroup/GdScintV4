@@ -1,5 +1,5 @@
 # Macro file for GdScint simulation
-
+/run/numberOfThreads 4
 /run/initialize
 
 # neutron 10 MeV 
@@ -7,5 +7,5 @@
 /gun/energy 10 MeV
 #
 /run/printProgress 5
-/run/beamOn 1
+/run/beamOn 3
 #
