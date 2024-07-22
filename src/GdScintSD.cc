@@ -12,40 +12,33 @@
 #include "G4String.hh"
 #include "EventAction.hh"
 #include "GdScintHit.hh"
+#include "G4HCofThisEvent.hh"
+#include "G4StackManager.hh"
+#include "G4VHitsCollection.hh"
+#include "G4VSensitiveDetector.hh"
 GdScintSD::GdScintSD(G4String name, DetectorConstruction* GdSD)  	
-: G4VSensitiveDetector(name),GdDetector(GdSD) {
-
-       	G4String HCname="GdScintCollection";
-  collectionName.insert(HCname);
-} 
-GdScintSD::~GdScintSD()
-{ ; }
-
-void GdScintSD::Initialize(G4HCofThisEvent* HCE)
+:G4VSensitiveDetector(name),GdDetector(GdSD) 
+//GdScintSD::GdScintSD(G4String name)
+//	:G4VSensitiveDetector(name)
 {
-
-G4cout<<"initialize sd"<<G4endl;	
- GdScintCollection = new GdScintHitsCollection(GetName(), collectionName[0]); 
-  HitID = -1;
-  verboseLevel=2;
-/*    
-    static G4int HCID = -1;
-    if(HCID<0){ HCID = G4SDManager::GetSDMpointer()->GetCollectionID(GdScintCollection); }
-//if(HCID<0) HCID = GetCollectionID(0);
-//GdScintCollection = new GdScintHitsCollection("myGdScintSD", collectionName[0]);
-    HCE->AddHitsCollection(HCID,GdScintCollection);
-    G4cout<<"HCID: "<<HCID<<G4endl;
-    G4int nHits = GdScintCollection->entries();
-    if (verboseLevel>=1) {
-        G4cout << "     Number of Scint hits: " << nHits << G4endl;
-    }
-*/
+       	G4String HCname="GdScintCollection";
+ 	collectionName.insert(HCname);
 }
 
-G4bool GdScintSD::ProcessHits(G4Step* aStep, G4TouchableHistory*) //R0hist
+GdScintSD::~GdScintSD()
+{ }
+
+void GdScintSD::Initialize(G4HCofThisEvent* HCE)
+{ 
+    GdScintCollection = new GdScintHitsCollection(SensitiveDetectorName, collectionName[0]); 
+    HitID = -1;
+    verboseLevel=0;
+}
+
+G4bool GdScintSD::ProcessHits(G4Step* aStep, G4TouchableHistory* ) //ROhist
 {
-       G4cout<<"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"<<G4endl;	
-////Get the Scint hit
+    GdScintHit* aScintHit = new GdScintHit();	
+    ////Get the Scint hit
     G4TouchableHistory* theTouchable = (G4TouchableHistory*)(aStep->GetPreStepPoint()->GetTouchable());
   
     G4VPhysicalVolume* physVol = theTouchable->GetVolume();
@@ -53,11 +46,8 @@ G4bool GdScintSD::ProcessHits(G4Step* aStep, G4TouchableHistory*) //R0hist
     ScintNumber= physVol->GetCopyNo();
 	G4double id = G4Threading::G4GetThreadId();
 	G4double edep = aStep->GetTotalEnergyDeposit();
-        //tally->AccumEdep(id, edep);	
-//	if (edep==0) return false;
-	
-		
-    GdScintHit* aScintHit = new GdScintHit();
+       	if(edep==0) return false;	
+ 
 
     aScintHit->SetScintPosition(aStep->GetPostStepPoint()->GetPosition());
     aScintHit->SetScintTime(aStep->GetPostStepPoint()->GetGlobalTime());
@@ -110,39 +100,23 @@ G4bool GdScintSD::ProcessHits(G4Step* aStep, G4TouchableHistory*) //R0hist
                 aScintHit->SetInelasticRecoil();
             }
         }
-    }
-
- G4cout << "TESTING AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" << G4endl; 
+    } 
 HitID = GdScintCollection->insert(aScintHit);
  
    return true;
-
-//aScintHit->AddEdep(edep);
-G4cout<<"edep: "<<edep<<G4endl;
-
 }
 
 void GdScintSD::EndOfEvent(G4HCofThisEvent* HCE)
 {
-	
-//    if (verboseLevel>=1)
-//        GdScintCollection->PrintScintHits();
-// PrintAllHits() instead?
-  
-
-
-
-	    static G4int HCID = -1;
-    if(HCID<0){ HCID = G4SDManager::GetSDMpointer()->GetCollectionID(GdScintCollection); }
-//if(HCID<0) HCID = GetCollectionID(0);
-//GdScintCollection = new GdScintHitsCollection("myGdScintSD", collectionName[0]);
-    HCE->AddHitsCollection(HCID,GdScintCollection);
-    G4cout<<"HCID HCID HCID HCID: "<<HCID<<G4endl;
+    G4String HCname = collectionName[0];  
+    static G4int HCID = -1;
+    if(HCID<0) { HCID = G4SDManager::GetSDMpointer()->GetCollectionID(HCname); }
+    HCE->AddHitsCollection(HCID, GdScintCollection);
+    G4cout<<"HCID: "<<HCID<<" HitID: "<<HitID<<G4endl;
     G4int nHits = GdScintCollection->entries();
     if (verboseLevel>=1) {
-        G4cout << "     Number of Scint hits: " << nHits << G4endl;
+        G4cout << "Number of Scint hits: " << nHits << G4endl;
     }
-
 }
 
 void GdScintSD::clear()

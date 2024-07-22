@@ -40,12 +40,11 @@ class EventAction : public G4UserEventAction
 
   public:
          G4double      particleke;
-
   private:
 	 void writeHits(const G4Event*);
-  G4int                       GdScintCollID;
+  G4int GdScintCollID;
   G4int n_hits;
- // G4int GdScintCollection;
+  G4String GdScintCollection;
   G4int totEvents; //total number of events processed
   G4int fThreshold;
 
@@ -53,7 +52,7 @@ class EventAction : public G4UserEventAction
 
 
 
-  G4THitsMap<G4double>* GetHitsCollection(G4int hcID, const G4Event* evt) const;
+ // G4THitsMap<G4double>* GetHitsCollection(G4int hcID, const G4Event* evt) const;
 };
 
 #endif

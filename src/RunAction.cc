@@ -7,7 +7,7 @@
 #include "RunAction.hh"
 #include "DetectorConstruction.hh"
 #include "G4Run.hh"
-//#include "G4RunManager.hh"
+#include "G4RunManager.hh"
 #include "G4RunManagerFactory.hh"
 #include "G4UImanager.hh"
 #include "G4VVisManager.hh"

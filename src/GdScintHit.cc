@@ -11,7 +11,6 @@ G4Allocator<GdScintHit> GdScintHitsAllocator;
 GdScintHit::GdScintHit()
 {
     positionScint = G4ThreeVector(0., 0., 0.);
-//    edepScint=0; // 
     timeScint = 0.;
 
 	rec = false;
@@ -24,7 +23,6 @@ GdScintHit::GdScintHit(const GdScintHit & right)
 {
 
   positionScint  = right.positionScint;
- // edepScint = right.edepScint; //
   rec = right.rec;
   InelasticRec = right.InelasticRec;
   timeScint = right.timeScint;
@@ -34,7 +32,6 @@ GdScintHit::GdScintHit(const GdScintHit & right)
 const GdScintHit & GdScintHit::operator=(const GdScintHit & right)
 {
   positionScint  = right.positionScint;
- // edepScint = right.edepScint; //
   rec = right.rec;
   InelasticRec = right.InelasticRec;  
   timeScint = right.timeScint;
@@ -64,6 +61,6 @@ int GdScintHit::operator==(const GdScintHit & right) const
 
 void GdScintHit::Print()
 {
- //        G4cout << "      Scint hit: " << std::setw(5) << G4BestUnit(time,"Time")
-   //         <<" at " << G4BestUnit(pos,"Length") << G4endl;
+    //     G4cout << "      Scint hit: " << std::setw(5) << G4BestUnit(time,"Time")
+  //          <<" at " << G4BestUnit(pos,"Length") << G4endl;
 }

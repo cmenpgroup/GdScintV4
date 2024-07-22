@@ -27,15 +27,15 @@
 #include "G4UnitsTable.hh"
 #include "Randomize.hh"
 #include "GdScintSD.hh"
-
+#include "G4DigiManager.hh"
 #include <iomanip>
 #include <fstream>
-
-
+#include "G4VSensitiveDetector.hh"
 #include "G4THitsMap.hh"
     G4int verboseLevel= 1;  
     G4int dataFiles = 1;    
     G4int Ntuples = 0;      
+
 EventAction::EventAction()
 {
     GdScintCollID=-1;
@@ -47,35 +47,27 @@ EventAction::~EventAction()
 {
     delete fGdScintEvMess;
 }
-//
-G4THitsMap<G4double>*
-EventAction::GetHitsCollection(G4int hcID, const G4Event* evt) const
-{
-            //
-    auto GdScintHitsCollection = static_cast<G4THitsMap<G4double>*>(evt->GetHCofThisEvent()->GetHC(hcID));
-    if(! GdScintHitsCollection) { G4cout<<"yikes"<<G4endl;
-    }
-    return GdScintHitsCollection;
-}
 
 void EventAction::BeginOfEventAction(const G4Event* evt)
 {
-
- //      totEvents = 0;
 	G4int evtNb;
 	evtNb = evt->GetEventID();
-	G4cout<<"!!!!!!!!!!! Begin of event: "<<evtNb<<G4endl;
+	G4cout<<"Begin of event: "<<evtNb<<G4endl;
 
+	if(GdScintCollID==-1){		
+		G4SDManager* SDman = G4SDManager::GetSDMpointer();
+		GdScintCollID = SDman->GetCollectionID("GdScintCollection");
+	//GdScintCollID prints as 0 here and GdScintCollection is true here
+	}
 }
 
 void EventAction::EndOfEventAction(const G4Event* evt)
-{ 
-	G4cout << "Total Events: " << G4endl;
+{	
+    G4cout << "Total Events: " << G4endl;
     G4cout << totEvents << G4endl;
     totEvents++;
     
-    G4int evtNb = evt->GetEventID();
-        
+    G4int evtNb = evt->GetEventID();    
     GdScintHitsCollection*          ScintHC    = NULL;
     G4HCofThisEvent* HCE = evt->GetHCofThisEvent();
     
@@ -92,22 +84,20 @@ void EventAction::EndOfEventAction(const G4Event* evt)
     G4ThreeVector   ScintVertexMomDir;
     G4String        ScintNuclearProcess;
 
-if (HCE) {
-	ScintHC = (GdScintHitsCollection*)(HCE->GetHC(GdScintCollID));
-    if ( ScintHC )
-    { G4cout<<"ScintHC :)"<<G4endl;
-       // n_hit = ScintHC->entries(); 
-	//G4cout<<"n_hit: "<<n_hit<<G4endl;
-       // if( verboseLevel > 1 ) {
-        //	G4cout<<"Total Number Of Step on this Hit "<<n_hit<<G4endl;
-       // }
-
-       // for (G4int i=0;i<n_hit;i++)
-       for (G4int i=0;i++;)
+if (HCE){ 
+	ScintHC = (GdScintHitsCollection*)(HCE->GetHC(GdScintCollID));} 
+    if ( ScintHC ) { 
+	    G4cout<<"ScintHC :)"<<G4endl;
+	    n_hit = ScintHC->entries(); 
+         if( verboseLevel > 1 ) {
+        	G4cout<<"Total Number Of Step on this Hit "<<n_hit<<G4endl;
+         }
+    
+       for (G4int i=0;i<n_hit;i++)
+//       for (G4int i=0;i++;)
         {
             ScintEdep              = (*ScintHC)[i]-> GetScintEdep(); 
             ScintTotalEnergy += ScintEdep;        
-       
 	} 
 
         G4cout<<"Edep in scintillator = "<<ScintTotalEnergy/MeV<<" MeV"<<G4endl;
@@ -121,7 +111,7 @@ if (HCE) {
     { G4cout<<"no scint HC :("<<G4endl;
  return;	    
     }
-    } 
+     
 if(! HCE) { G4cout<<"No HCE :("<<G4endl; }
     if ( G4VVisManager::GetConcreteInstance() )
     {
@@ -135,7 +125,8 @@ if(! HCE) { G4cout<<"No HCE :("<<G4endl; }
          trj->DrawTrajectory();
         }
     }
-
+    if(! GdScintCollID) { G4cout<<"NO GDSCINTCOLLID"<<G4endl; } //Prints no GdScintCollID
+	if(ScintHC==0) { G4cout<<"scinthc is zero"<<G4endl; }
 }
 void EventAction::SetThreshold(G4int th){}
 

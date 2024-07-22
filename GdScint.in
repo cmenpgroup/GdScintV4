@@ -7,5 +7,5 @@
 /gun/energy 10 MeV
 #
 /run/printProgress 5
-/run/beamOn 3
+/run/beamOn 1
 #

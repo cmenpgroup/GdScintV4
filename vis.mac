@@ -140,5 +140,5 @@
 # 
 /vis/viewer/update
 /run/printProgress 3
-/run/beamOn 8
+/run/beamOn 4
 
